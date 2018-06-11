@@ -28,25 +28,12 @@ export class PodsImagesService implements ImagesService {
  
     async uploadImage(image: Express.Multer.File): Promise<Image> {
         const createImageFilesDto = await this.transformImageService.transform(image);
-        
-        let savedImage;
-        try {
-            savedImage = await this.saveImageService.save(createImageFilesDto);
-        } catch(e) {
-            Logger.error(`Cannot save image ${image} to local drive: ${e.message}`, e.stack)
-            throw new InternalServerErrorException();
-        }
-
-        return await this.create(savedImage);
+        const savedImageOnLocalDrive = await this.saveImageService.save(createImageFilesDto);
+        return await this.create(savedImageOnLocalDrive);
     }
 
     async create(image: CreateImageDto): Promise<Image> {
-        try {
-            const createdImage = await this.imageRepository.create(image);
-            return await this.imageRepository.save(createdImage);
-        } catch(e) {
-            Logger.error(`Cannot save image ${image} to database: ${e.message}`, e.stack)
-            throw new InternalServerErrorException();       
-        }
+        const createdImage = await this.imageRepository.create(image);
+        return await this.imageRepository.save(createdImage);
     }
 }

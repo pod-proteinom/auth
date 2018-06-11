@@ -23,14 +23,9 @@ export class TinifyTransformImageService implements TransformImageService {
 
         const resizeConfig = this.config.getTinifyResizeConfig();
         const thumbnailImage = this.resize(sourceImage, resizeConfig.thumbnail);
+
         const images = [optimizedImage, thumbnailImage];
-        let sizes;
-        try {
-            sizes = await Promise.all(images.map(this.getSize));
-        } catch(e) {
-            Logger.error(`Cannot get image sizes: ${e.message}`, e.stack);
-            throw new InternalServerErrorException();
-        }
+        const sizes = await Promise.all(images.map(this.getSize));
         const names = this.imageNamingService.resolve(originalImage.originalname, sizes);
         return new CreateImageFilesDto(images, names, sizes);
     }
