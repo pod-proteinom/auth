@@ -27,4 +27,8 @@ export class CryptoPasswordService implements PasswordService {
         });
     }
 
+    async verify(password: string, salt: string, correctHash: string): Promise<boolean> {
+        const hash = await this.cipherPassword(password, salt);
+        return hash === correctHash;
+    } 
 }
