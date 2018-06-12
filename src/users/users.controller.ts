@@ -1,8 +1,8 @@
 import { Body, ConflictException, Controller, Inject, Post } from "@nestjs/common";
 import { UsersServiceToken } from "./constants";
 import { CreateUserDto } from "./dto/create-user.dto";
+import { UserDto } from "./dto/user.dto";
 import { UsersService } from "./services/users.service";
-import { User } from "./user.entity";
 
 @Controller('users')
 export class UsersController {
@@ -15,7 +15,7 @@ export class UsersController {
 
 
     @Post()
-    async register(@Body() createUserDto: CreateUserDto): Promise<User> {
+    async register(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
         const userEmail = createUserDto.email;
         const isUserWithSameEmailExist = await this.usersService.findUserByEmail(userEmail);
         if(isUserWithSameEmailExist) {

@@ -1,4 +1,5 @@
-export class NewUserDto {
+export class UserDto {
+    id: string
     username: string
     email: string
     token: string
