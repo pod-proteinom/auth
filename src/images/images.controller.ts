@@ -1,4 +1,5 @@
-import { ConflictException, Controller, FileInterceptor, Inject, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { ConflictException, Controller, FileInterceptor, Inject, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { ImagesServiceToken } from "./constants";
 import { ImagesService } from "./services/images.service";
 
@@ -11,6 +12,7 @@ export class ImagesController {
     };
 
     @Post()
+    @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(FileInterceptor('image'))
     async upload(@UploadedFile() image) {
         const filename = image.originalname;

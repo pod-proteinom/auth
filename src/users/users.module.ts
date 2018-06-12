@@ -7,7 +7,8 @@ import { UsersModuleProviders } from "./users.providers";
 @Module({
     imports: [TypeOrmModule.forFeature([User])],
     controllers: [UsersController],
-    providers: UsersModuleProviders
+    providers: UsersModuleProviders,
+    exports: UsersModuleProviders
 })
 export class UsersModule {
     static forRoot(providers = []): DynamicModule {
