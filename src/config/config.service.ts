@@ -20,7 +20,8 @@ export class ConfigService {
             .valid(['development', 'production', 'test'])
             .default('development'),
           PORT: Joi.number().default(3000),
-          TINIFY_API_KEY: Joi.string()
+          TINIFY_API_KEY: Joi.string(),
+          JWT_SECRET_KEY: Joi.string()
         });
     
         const { error, value: validatedEnvConfig } = Joi.validate(
@@ -52,5 +53,12 @@ export class ConfigService {
 
     getImageDirectory() {
       return path.join(this.getPublicDirectory(), 'images');
+    }
+
+    getJwtConfiguration() {
+      return {
+        secretKey: this.envConfig.JWT_SECRET_KEY,
+        expiresIn: 3600
+      };
     }
 }
