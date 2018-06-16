@@ -1,4 +1,4 @@
-import { ConflictException, Controller, FileInterceptor, Inject, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import { ConflictException, Controller, FileInterceptor, Inject, Post, UploadedFile, UseGuards, UseInterceptors, Get } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ImagesServiceToken } from "./constants";
 import { ImagesService } from "./services/images.service";
@@ -10,6 +10,11 @@ export class ImagesController {
     constructor(@Inject(ImagesServiceToken) imagesService: ImagesService) {
         this.imagesService = imagesService;
     };
+
+    @Get()
+    async getImages() {
+        return await this.imagesService.findAll();
+    }
 
     @Post()
     @UseGuards(AuthGuard('jwt'))

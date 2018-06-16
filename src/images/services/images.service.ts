@@ -8,4 +8,6 @@ export interface ImagesService {
     uploadImage(image: Express.Multer.File): Promise<Image>;
     
     create(image: CreateImageDto): Promise<Image>;
+
+    findAll(): Promise<Image[]>;
 }

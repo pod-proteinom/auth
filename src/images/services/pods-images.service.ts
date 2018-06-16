@@ -36,4 +36,8 @@ export class PodsImagesService implements ImagesService {
         const createdImage = await this.imageRepository.create(image);
         return await this.imageRepository.save(createdImage);
     }
+
+    async findAll(): Promise<Image[]> {
+        return await this.imageRepository.find({});
+    }
 }
