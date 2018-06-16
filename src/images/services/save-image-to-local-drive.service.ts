@@ -1,5 +1,6 @@
-import { Injectable } from "@nestjs/common";
-import { ConfigService } from "config/config.service";
+import { Inject, Injectable } from "@nestjs/common";
+import { ConfigService } from "config/services/config.service";
+import { ConfigServiceToken } from "config/constants";
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import { CreateImageFilesDto } from "../dto/create-files.dto";
@@ -8,12 +9,16 @@ import { SaveImageService } from "./save-image.service";
 
 @Injectable()
 export class SaveImageToLocalDriveService implements SaveImageService {
+
+    private readonly configService: ConfigService;
     
-    constructor(private readonly config: ConfigService) {}
+    constructor(@Inject(ConfigServiceToken) configService: ConfigService) {
+        this.configService = configService;
+    }
     
     async save(images: CreateImageFilesDto): Promise<CreateImageDto> {
         const yearFolder = this.getYearFolder();
-        const pathToYearFolder = path.join(this.config.getImageDirectory(), yearFolder);
+        const pathToYearFolder = path.join(this.configService.getImageDirectory(), yearFolder);
         await this.createFolderIfNotExist(pathToYearFolder);
 
         const monthFolder = this.getMonthFolder();

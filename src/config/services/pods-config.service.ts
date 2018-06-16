@@ -1,12 +1,13 @@
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 import * as Joi from 'joi';
+import { ConfigService } from './config.service';
 
 export interface EnvConfig {
     [prop: string]: string;
 }
 
-export class ConfigService {
+export class PodsConfigService implements ConfigService {
     private readonly envConfig: EnvConfig;
  
     constructor(filename: string) {
@@ -51,11 +52,11 @@ export class ConfigService {
       return path.join(process.cwd(), 'public');
     }
 
-    getImageDirectory() {
+    getImageDirectory(): string {
       return path.join(this.getPublicDirectory(), 'images');
     }
 
-    getJwtConfiguration() {
+    getJwtConfiguration(): any {
       return {
         secretKey: this.envConfig.JWT_SECRET_KEY,
         expiresIn: 3600

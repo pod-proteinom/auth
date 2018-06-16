@@ -3,11 +3,13 @@ import { ImagesController } from "./images.controller";
 import { ImagesModuleProviders } from "./images.providers";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Image } from "./image.entity";
+import { ConfigModule } from "config/config.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Image])],
+    imports: [ConfigModule, TypeOrmModule.forFeature([Image])],
     controllers: [ImagesController],
-    providers: ImagesModuleProviders
+    providers: ImagesModuleProviders,
+    exports: ImagesModuleProviders
 })
 export class ImagesModule {
     static forRoot(providers = []): DynamicModule {

@@ -1,13 +1,14 @@
-import { Module, Global } from "@nestjs/common";
-import { ConfigService } from "./config.service";
+import { Module } from "@nestjs/common";
+import { ConfigService } from "./services/config.service";
+import { ConfigServiceToken } from "./constants";
+import { PodsConfigService } from "./services/pods-config.service";
 
-@Global()
 @Module({
     providers: [{
-        provide: ConfigService,
-        useValue: new ConfigService(`${process.env.NODE_ENV}.env`)
+        provide: ConfigServiceToken,
+        useValue: new PodsConfigService(`${process.env.NODE_ENV}.env`)
     }],
-    exports: [ConfigService]
+    exports: [ConfigServiceToken]
 })
 export class ConfigModule {
 

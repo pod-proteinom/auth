@@ -1,5 +1,6 @@
-import { Inject, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
-import { ConfigService } from 'config/config.service';
+import { Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from 'config/services/config.service';
+import { ConfigServiceToken } from 'config/constants';
 import * as tinify from 'tinify';
 import { ImageNamingServiceToken } from '../constants';
 import { CreateImageFilesDto } from '../dto/create-files.dto';
@@ -9,11 +10,13 @@ import { TransformImageService } from './transform-image.service';
 @Injectable()
 export class TinifyTransformImageService implements TransformImageService {
 
+    private readonly configService: ConfigService;
     private readonly imageNamingService: ImageNamingService;
 
-    constructor(private readonly config: ConfigService, 
+    constructor(@Inject(ConfigServiceToken) configService: ConfigService, 
                 @Inject(ImageNamingServiceToken) imageNamingService: ImageNamingService) {
-        tinify.key = config.getTinifyApiKey();
+        tinify.key = configService.getTinifyApiKey();
+        this.configService = configService;
         this.imageNamingService = imageNamingService;
     }
 
@@ -21,7 +24,7 @@ export class TinifyTransformImageService implements TransformImageService {
         const sourceImage = tinify.fromBuffer(originalImage.buffer);
         const optimizedImage = this.optimize(sourceImage);
 
-        const resizeConfig = this.config.getTinifyResizeConfig();
+        const resizeConfig = this.configService.getTinifyResizeConfig();
         const thumbnailImage = this.resize(sourceImage, resizeConfig.thumbnail);
 
         const images = [optimizedImage, thumbnailImage];
