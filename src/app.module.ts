@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from 'config/config.module';
-import { ImagesModule } from 'images/images.module';
-import { UsersModule } from 'users/users.module';
 import { AuthenticationModule } from 'authentication/authentication.module';
+import { ImagesModule } from 'images/images.module';
+import { PagesModule } from 'pages/pages.module';
+import { UsersModule } from 'users/users.module';
 
 @Module({
-  imports: [ConfigModule, TypeOrmModule.forRoot(), AuthenticationModule, UsersModule, ImagesModule]
+  imports: [TypeOrmModule.forRoot(), AuthenticationModule, UsersModule, 
+    ImagesModule, PagesModule],
+  exports: [AppModule]
 })
 export class AppModule {
 }
