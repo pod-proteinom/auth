@@ -22,7 +22,16 @@ export class PodsConfigService implements ConfigService {
             .default('development'),
           PORT: Joi.number().default(3000),
           TINIFY_API_KEY: Joi.string(),
-          JWT_SECRET_KEY: Joi.string()
+          JWT_SECRET_KEY: Joi.string(),
+          TYPEORM_CONNECTION: Joi.string(),
+          TYPEORM_HOST : Joi.string(),
+          TYPEORM_USERNAME: Joi.string(),
+          TYPEORM_PASSWORD: Joi.string(),
+          TYPEORM_DATABASE: Joi.string(),
+          TYPEORM_PORT: Joi.number(),
+          TYPEORM_SYNCHRONIZE: Joi.boolean(),
+          TYPEORM_LOGGING: Joi.boolean(),
+          TYPEORM_ENTITIES: Joi.string(),
         });
     
         const { error, value: validatedEnvConfig } = Joi.validate(
@@ -32,7 +41,7 @@ export class PodsConfigService implements ConfigService {
         if (error) {
           throw new Error(`Config validation error: ${error.message}`);
         }
-        return validatedEnvConfig;
+        return envConfig;
     }
 
     getTinifyApiKey(): string {
