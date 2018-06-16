@@ -1,12 +1,12 @@
-import { Injectable, Inject, Logger, InternalServerErrorException } from "@nestjs/common";
-import { Image } from "../image.entity";
-import { ImagesService } from "./images.service";
-import { TransformImageServiceToken, SaveImageServiceToken } from "../constants";
-import { TransformImageService } from "./transform-image.service";
-import { SaveImageService } from "./save-image.service";
-import { CreateImageDto } from "../dto/create-image.dto";
+import { Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { SaveImageServiceToken, TransformImageServiceToken } from "../constants";
+import { CreateImageDto } from "../dto/create-image.dto";
+import { Image } from "../image.entity";
+import { ImagesService } from "./images.service";
+import { SaveImageService } from "./save-image.service";
+import { TransformImageService } from "./transform-image.service";
 
 @Injectable()
 export class PodsImagesService implements ImagesService {
@@ -25,6 +25,14 @@ export class PodsImagesService implements ImagesService {
     async findImageByFilename(filename: string): Promise<Image> {
         return await this.imageRepository.findOne({ filename });
     }
+
+    async findImageById(id: string): Promise<Image> {
+        return await this.imageRepository.findOne({id});
+    }
+    
+    async findAll(): Promise<Image[]> {
+        return await this.imageRepository.find({});
+    }
  
     async uploadImage(image: Express.Multer.File): Promise<Image> {
         const createImageFilesDto = await this.transformImageService.transform(image);
@@ -35,9 +43,5 @@ export class PodsImagesService implements ImagesService {
     async create(image: CreateImageDto): Promise<Image> {
         const createdImage = await this.imageRepository.create(image);
         return await this.imageRepository.save(createdImage);
-    }
-
-    async findAll(): Promise<Image[]> {
-        return await this.imageRepository.find({});
     }
 }
