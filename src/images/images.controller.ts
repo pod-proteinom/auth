@@ -17,7 +17,7 @@ export class ImagesController {
     }
 
     @Post()
-    @UseGuards(AuthGuard('jwt'))
+    // @UseGuards(AuthGuard('jwt'))
     @UseInterceptors(FileInterceptor('image'))
     async upload(@UploadedFile() image) {
         const filename = image.originalname;

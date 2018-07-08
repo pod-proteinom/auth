@@ -4,9 +4,9 @@ export class CreateImageDto {
     filename: string
     original: string
     thumbnail: string
-    // medium: ImageFileDto
-    // large: ImageFileDto
-    // featured: ImageFileDto
+    medium: string
+    large: string
+    featured: string
 
     constructor(title: string, alt: string, filename: string, imageFiles: string[]) {
         this.title = title;
