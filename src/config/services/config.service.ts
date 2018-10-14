@@ -17,4 +17,6 @@ export interface ConfigService {
     getImageDirectory(): string;
 
     getJwtConfiguration(): any;
+
+    getImagePrefix(): string;
 }

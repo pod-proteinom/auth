@@ -12,8 +12,11 @@ export class CreateImageDto {
         this.title = title;
         this.alt = alt;
         this.filename = filename;
-        const [original, thumbnail] = imageFiles;
+        const [original, thumbnail, medium, large, featured] = imageFiles;
         this.original = original;
         this.thumbnail = thumbnail;
+        this.medium = medium;
+        this.large = large;
+        this.featured = featured;
     }
 }

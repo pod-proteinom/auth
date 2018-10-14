@@ -21,6 +21,7 @@ export class PodsConfigService implements ConfigService {
             .valid(['development', 'production', 'test'])
             .default('development'),
           PORT: Joi.number().default(3000),
+          IMAGE_PREFIX: Joi.string(),
           TINIFY_API_KEY: Joi.string(),
           JWT_SECRET_KEY: Joi.string(),
           TYPEORM_CONNECTION: Joi.string(),
@@ -70,5 +71,9 @@ export class PodsConfigService implements ConfigService {
         secretKey: this.envConfig.JWT_SECRET_KEY,
         expiresIn: 3600
       };
+    }
+
+    getImagePrefix(): string {
+      return this.envConfig.IMAGE_PREFIX;
     }
 }

@@ -50,7 +50,9 @@ export class SaveImageToLocalDriveService implements SaveImageService {
 
     private getMonthFolder(): string {
         const currentDate = new Date();
-        const currentMonth = 0 + (currentDate.getMonth() + 1).toString();
+        const monthNumber = currentDate.getMonth() + 1;
+        console.log(monthNumber)
+        const currentMonth = monthNumber < 10 ? 0 + monthNumber.toString() : monthNumber.toString();
         return currentMonth;
     }
 
